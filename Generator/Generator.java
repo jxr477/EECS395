@@ -170,6 +170,9 @@ public class Generator {
         Student student2 = new Student("0001", 3.42, 157, 168, 3.0, 100, false, 0, "China");
 
 
+        System.out.println("Student information: ");
+        System.out.println(student2);
+        System.out.println(" ");
         System.out.println("Recommended Schools: ");
         System.out.println(" ");
 
