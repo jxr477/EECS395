@@ -58,7 +58,7 @@ public class SchoolDBConnect {
         return output;
     }
 
-    public static ArrayList<String> getAllSchoolIDs()
+    public ArrayList<String> getAllSchoolIDs()
     {
         ArrayList<String> output = new ArrayList<>();
 
@@ -80,7 +80,7 @@ public class SchoolDBConnect {
             ResultSet rs= st.executeQuery("select school_id from school order by school_ranking");
 
             while(rs.next()){
-                output.add(rs.getString("school_id"));
+                output.add("'" + rs.getString("school_id") + "'");
             }
 
             conn.close();

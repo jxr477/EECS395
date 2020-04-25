@@ -6,6 +6,14 @@ public class Generator {
 
     public static final int MAX_NUM_SCHOOLS = 10;
     public static final ArrayList<School> allSchools = SchoolDBConnect.getSchoolDBConnectInstance().getAllSchool();
+    public static final ArrayList<String> allSchoolIds = SchoolDBConnect.getSchoolDBConnectInstance().getAllSchoolIDs();
+    public static final ArrayList<Double> all_average_gpa = Generator.getAllAverageGPA();
+    public static final ArrayList<Double> all_average_gre_v = Generator.getAllAverageGRE_V();
+    public static final ArrayList<Double> all_average_gre_q = Generator.getAllAverageGRE_Q();
+    public static final ArrayList<Double> all_average_gre_w = Generator.getAllAverageGRE_W();
+    public static final ArrayList<Double> all_average_working_time = Generator.getAllAverageWorkingTime();
+    public static final ArrayList<Double> all_average_toefl = Generator.getAllAverageToefl();
+    public static final ArrayList<Boolean> all_average_publication = Generator.getAllAveragePublication();
 
     public static double getAverageGPA(String school_id){
         ArrayList<Double> gpa = StudentDBConnect.getStudentDBConnectInstance().getAcceptedStudentGPA(school_id);
@@ -15,6 +23,18 @@ public class Generator {
 
         double average = sum / gpa.size();
         return average;
+    }
+
+    public static ArrayList<Double> getAllAverageGPA(){
+        ArrayList<Double> output = new ArrayList<Double> ();;
+
+        for (int i = 0; i < allSchoolIds.size(); i++){
+            String school_id = allSchoolIds.get(i);
+            output.add(Generator.getAverageGPA(school_id));
+        }
+
+        return output;
+
     }
 
     public static double getAverageGRE_V(String school_id){
@@ -27,6 +47,18 @@ public class Generator {
         return average;
     }
 
+    public static ArrayList<Double> getAllAverageGRE_V(){
+        ArrayList<Double> output = new ArrayList<Double> ();;
+
+        for (int i = 0; i < allSchoolIds.size(); i++){
+            String school_id = allSchoolIds.get(i);
+            output.add(Generator.getAverageGRE_V(school_id));
+        }
+
+        return output;
+
+    }
+
     public static double getAverageGRE_Q(String school_id){
         ArrayList<Integer> gre_q = StudentDBConnect.getStudentDBConnectInstance().getAcceptedStudentGRE_Q(school_id);
         double sum = 0;
@@ -35,6 +67,16 @@ public class Generator {
 
         double average = sum / gre_q.size();
         return average;
+    }
+
+    public static ArrayList<Double> getAllAverageGRE_Q(){
+        ArrayList<Double> output = new ArrayList<Double> ();;
+
+        for (int i = 0; i < allSchoolIds.size(); i++){
+            String school_id = allSchoolIds.get(i);
+            output.add(Generator.getAverageGRE_Q(school_id));
+        }
+        return output;
     }
 
     public static double getAverageGRE_W(String school_id){
@@ -47,6 +89,16 @@ public class Generator {
         return average;
     }
 
+    public static ArrayList<Double> getAllAverageGRE_W(){
+        ArrayList<Double> output = new ArrayList<Double> ();;
+
+        for (int i = 0; i < allSchoolIds.size(); i++){
+            String school_id = allSchoolIds.get(i);
+            output.add(Generator.getAverageGRE_W(school_id));
+        }
+        return output;
+    }
+
     public static double getAverageWorkingTime(String school_id){
         ArrayList<Double> working_time = StudentDBConnect.getStudentDBConnectInstance().getAcceptedStudentWorkingTime(school_id);
         double sum = 0;
@@ -57,6 +109,16 @@ public class Generator {
         return average;
     }
 
+    public static ArrayList<Double> getAllAverageWorkingTime(){
+        ArrayList<Double> output = new ArrayList<Double> ();;
+
+        for (int i = 0; i < allSchoolIds.size(); i++){
+            String school_id = allSchoolIds.get(i);
+            output.add(Generator.getAverageWorkingTime(school_id));
+        }
+        return output;
+    }
+
     public static double getAverageToefl(String school_id){
         ArrayList<Integer> toefl = StudentDBConnect.getStudentDBConnectInstance().getAcceptedStudentToefl(school_id);
         double sum = 0;
@@ -65,6 +127,16 @@ public class Generator {
 
         double average = sum / toefl.size();
         return average;
+    }
+
+    public static ArrayList<Double> getAllAverageToefl(){
+        ArrayList<Double> output = new ArrayList<Double> ();;
+
+        for (int i = 0; i < allSchoolIds.size(); i++){
+            String school_id = allSchoolIds.get(i);
+            output.add(Generator.getAverageToefl(school_id));
+        }
+        return output;
     }
 
     public static boolean getAveragePublication(String school_id){
@@ -87,29 +159,46 @@ public class Generator {
         return average;
     }
 
-    public static ArrayList<School> generate(Student student){
+    public static ArrayList<Boolean> getAllAveragePublication(){
+        ArrayList<Boolean> output = new ArrayList<Boolean> ();;
+
+        for (int i = 0; i < allSchoolIds.size(); i++){
+            String school_id = allSchoolIds.get(i);
+            output.add(Generator.getAveragePublication(school_id));
+        }
+        return output;
+    }
+
+    public static ArrayList<School> generate(String studentID){
+        studentID = "'" + studentID + "'";
 
         ArrayList<School> recommendation = new ArrayList<School> ();
 
+        double studentGPA = StudentDBConnect.getStudentDBConnectInstance().getGPA(studentID);
+        double studentGRE_V = StudentDBConnect.getStudentDBConnectInstance().getGRE_V(studentID);
+        double studentGRE_Q = StudentDBConnect.getStudentDBConnectInstance().getGRE_Q(studentID);
+        double studentGRE_W = StudentDBConnect.getStudentDBConnectInstance().getGRE_W(studentID);
+        double studentTofel = StudentDBConnect.getStudentDBConnectInstance().getToefl(studentID);
+        double studentWorkingTime = StudentDBConnect.getStudentDBConnectInstance().getWorkingTime(studentID);
+
         for (int i = 0; i < allSchools.size(); i++){
-            String school_id = ("'" + allSchools.get(i).getSchoolID() + "'"); // adjust format
+            double average_gpa = all_average_gpa.get(i);
+            double average_gre_v = all_average_gre_v.get(i);
+            double average_gre_q = all_average_gre_q.get(i);
+            double average_gre_w = all_average_gre_w.get(i);
+            double average_working_time = all_average_working_time.get(i);
+            double average_toefl = all_average_toefl.get(i);
+            boolean average_publication = all_average_publication.get(i);
 
-            double average_gpa = Generator.getAverageGPA(school_id);
-            double average_gre_v = Generator.getAverageGRE_V(school_id);
-            double average_gre_q = Generator.getAverageGRE_Q(school_id);
-            double average_gre_w = Generator.getAverageGRE_W(school_id);
-            double average_working_time = Generator.getAverageWorkingTime(school_id);
-            double average_toefl = Generator.getAverageToefl(school_id);
-            boolean average_publication = Generator.getAveragePublication(school_id);
 
-            boolean adjusted_publication = Generator.AdjustPublication(student.getPublication(), average_publication);
+            boolean adjusted_publication = Generator.AdjustPublication(StudentDBConnect.getStudentDBConnectInstance().getPublication(studentID), average_publication);
 
-            if (Generator.GraduateFromUS(student.getStudentID()) == true){
+            if (Generator.GraduateFromUS(studentID) == true){
 
-                if (student.getGPA() >= (average_gpa - 0.2) && student.getGRE_V() >= (average_gre_v - 2)
-                        && student.getGRE_Q() >= (average_gre_q - 2) && student.getGRE_W() >= (average_gre_w - 0.5)
-                        &&  adjusted_publication == true && student.getTOEFL() >= (average_toefl - 10)
-                        && student.getWorkingTime() >= (average_working_time - 1)){
+                if (studentGPA >= (average_gpa - 0.2) && studentGRE_V >= (average_gre_v - 2)
+                        && studentGRE_Q >= (average_gre_q - 2) && studentGRE_W >= (average_gre_w - 0.5)
+                        &&  adjusted_publication == true && studentTofel >= (average_toefl - 10)
+                        && studentWorkingTime >= (average_working_time - 1)){
 
                     recommendation.add(allSchools.get(i));
                 }
@@ -118,10 +207,10 @@ public class Generator {
 
             else{
 
-                if (student.getGPA() >= (average_gpa - 0.1) && student.getGRE_V() >= (average_gre_v - 2)
-                        && student.getGRE_Q() >= (average_gre_q - 2) && student.getGRE_W() >= (average_gre_w - 0.5)
-                        &&  adjusted_publication == true && student.getTOEFL() >= (average_toefl - 5)
-                        && student.getWorkingTime() >= (average_working_time - 0.5)){
+                if (studentGPA >= (average_gpa - 0.1) && studentGRE_V >= (average_gre_v - 2)
+                        && studentGRE_Q >= (average_gre_q - 2) && studentGRE_W >= (average_gre_w - 0.5)
+                        &&  adjusted_publication == true && studentTofel >= (average_toefl - 5)
+                        && studentWorkingTime >= (average_working_time - 0.5)){
 
                     recommendation.add(allSchools.get(i));
                 }
@@ -144,7 +233,6 @@ public class Generator {
 
     public static boolean GraduateFromUS(String student_id){
 
-        student_id = ("'" + student_id + "'"); // adjust format
         if (StudentDBConnect.getStudentDBConnectInstance().getGraduateSchoolName(student_id).equals("Not Found"))
             return false;
         else
@@ -166,19 +254,12 @@ public class Generator {
 
     public static void main(String[] args) {
 
-        Student student1 = new Student("9999", 4.0, 170, 170, 6.0, 120, true, 10, "China");
-        Student student2 = new Student("0001", 3.42, 157, 168, 3.0, 100, false, 0, "China");
-
-
-        System.out.println("Student information: ");
-        System.out.println(student2);
-        System.out.println(" ");
         System.out.println("Recommended Schools: ");
         System.out.println(" ");
 
 
 
-        ArrayList<School> test = Generator.generate(student2);
+        ArrayList<School> test = Generator.generate("0001");
         for (int i = 0; i < test.size(); i++)
             System.out.println(test.get(i));
     }
