@@ -10,13 +10,10 @@ public class GeneratorTest {
         @Test
         public void generateTest() throws Exception {
             Student student1 = new Student("9999", 4.0, 170, 170, 6.0, 120, true, 10, "China");
-            Student student2 = new Student("0001", 3.42, 157, 168, 3.0, 100, false, 0, "China");
             ArrayList<School> test1 = Generator.generate(student1);
-            ArrayList<School> test2 = Generator.generate(student2);
 
 
             Assert.assertEquals(test1.size(), Generator.generate(student1).size());
-            Assert.assertEquals(test2.size(), Generator.generate(student2).size());
         }
 
         @Test
